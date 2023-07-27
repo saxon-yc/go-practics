@@ -21,6 +21,9 @@ func Base() {
 	fmt.Printf("---- 字符串类型 ----\n")
 	strType()
 
+	fmt.Printf("---- 常量 ----\n")
+	constType()
+
 	fmt.Printf("****基本数据类型****\n")
 }
 
@@ -37,11 +40,20 @@ func numType() {
 	fmt.Printf("整型的零值为：%v\n", numi) // 整型的零值为：0
 
 	// 其他类型
-	// byte 是 unit8 的别名，范围为：0～255
+
+	/* byte 是 unit8 的别名，范围为：0～255
+	https://mp.weixin.qq.com/s/5wF4wBJyIROXdgo-4emRRA
+	*/
 	// var num1 uint8 = 0
 	// var num2 byte = 255
-	var num2Arr []byte = []byte{0, 'A', 'Z', 'a', 'z', 255} // byte's array: [0 65 90 97 122 255]
-	fmt.Printf("byte's array: %v\n", num2Arr)
+	// 单引号表示字符，双引号表示字符串
+	var num2Arr []byte = []byte{0, 'A', 'Z', 'a', 'z', 255}
+	fmt.Printf("byte's array: %v\n", num2Arr) // // byte's array: [0 65 90 97 122 255]
+
+	// byte切片
+	var std []byte = []byte{104, 101, 108, 108, 111, 'a'}
+	fmt.Printf("%T-%v \n", std, std) // []uint8-[104 101 108 108 111]
+	fmt.Printf("std is: %s\n", std)  // std is: hello
 
 	// var num3 uint16 = 16
 
@@ -93,5 +105,19 @@ func strType() {
 	fmt.Printf(`
 		反引号
 	`)
+
+}
+
+func constType() {
+	const a = 'a'
+	fmt.Printf("%v\n", a) // 97 因为是一个字符，所以为97
+
+	// go没有枚举类型，但可以使用常量来替代。这里模拟TS中的enum
+	const (
+		success = iota
+		failed
+		warning
+	)
+	fmt.Printf("success: %v, failed: %v, warning: %v\n", success, failed, warning) // success: 0, failed: 1, warning: 2
 
 }
