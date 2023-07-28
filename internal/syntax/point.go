@@ -1,19 +1,20 @@
-package structer
+package syntax
 
 import "fmt"
 
 type Stu struct {
 	name string
 	age  int
+	sex  string
 }
 
-func Pointer() {
+func MyPointer() {
 	arr := [5]int{0, 1, 2, 3, 4}
 	fmt.Printf("Source1 arr: %v\n", arr) // Source1 arr: [0 1 2 3 4]
 	p1(arr)                              // // After p1 arr: [0 666 2 3 4]
 	p2(&arr)                             // // After p2 arr: [0 1 2 3 40]
 	fmt.Printf("Source2 arr: %v\n", arr) // Source2 arr: [0 1 2 3 40] 受指针类型传递的影响
-	p3(&Stu{"zhangsan", 26})             // {zhangsan 26}
+	p3(&Stu{"zhangsan", 26, ""})         // {zhangsan 26 women}
 }
 
 func p1(arr [5]int) {
@@ -26,5 +27,6 @@ func p2(arr *[5]int) {
 }
 
 func p3(s *Stu) {
+	s.sex = "women"
 	fmt.Printf("%v\n", *s)
 }

@@ -1,17 +1,19 @@
 package main
 
 import (
-	"go-practics/config"
-	structer "go-practics/internal/structer"
+	syntax "go-practics/internal/syntax"
 )
 
 func init() {
-	config.New("config/proxy.yaml")
+	// external.NewViper("config/proxy.yaml")
 }
 
 func main() {
-	// structer.Base()
-	// structer.Array()
-	structer.Pointer()
-	structer.Mapp()
+	// syntax.MyBase()
+	// syntax.MyArray()
+	// syntax.MyPointer()
+	// syntax.MyMap()
+	syntax.MySlice()
+
+	// external.MyViper()
 }

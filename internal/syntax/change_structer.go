@@ -1,9 +1,9 @@
 // 数据类型相互转换
-package structer
+package syntax
 
 import "fmt"
 
-func ChangeStructer() {
+func Changesyntax() {
 	int2string()
 }
 

@@ -1,6 +1,6 @@
 // 基本数据类型
 
-package structer
+package syntax
 
 import (
 	"bytes"
@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func Base() {
+func MyBase() {
 	fmt.Printf("****基本数据类型****\n")
 
 	fmt.Printf("---- 布尔类型 ----\n")

@@ -1,5 +1,5 @@
 app:
   port: 9999
   https: false
-  pre_fix: /api/v1
+  pre: /api/v1
   session_id: 1

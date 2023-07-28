@@ -1,21 +1,21 @@
 // 数组
 
-package structer
+package syntax
 
 import (
 	"fmt"
 	"sort"
 )
 
-func init() {
-	fmt.Printf("init2...\n")
-}
+// func init() {
+// 	fmt.Printf("init2...\n")
+// }
 
-func init() {
-	fmt.Printf("init1...\n")
-}
+// func init() {
+// 	fmt.Printf("init1...\n")
+// }
 
-func Array() {
+func MyArray() {
 	ramPoint()
 
 	slice1 := []int{0, 1, 12, 55, 255, 0, 255, 5, 89, 78}

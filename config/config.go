@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// 一般把读写初始化配置 写在config文件夹下
 func New(path string) {
 	// 读取配置
 	viper.SetConfigFile(path)

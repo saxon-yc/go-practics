@@ -1,13 +1,11 @@
 // map 结构
-package structer
+package syntax
 
 import (
 	"fmt"
-
-	"github.com/spf13/viper"
 )
 
-func Mapp() {
+func MyMap() {
 	mpf1()
 }
 
@@ -28,7 +26,5 @@ func mpf1() {
 	}
 	// delete(mp1, "age")
 	fmt.Println(mp1)
-
-	fmt.Printf("viper.GetInt(\"app.port\"): %v\n", viper.GetInt("app.port")) // 9999
 
 }
