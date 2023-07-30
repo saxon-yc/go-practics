@@ -13,7 +13,9 @@ func main() {
 	// syntax.MyArray()
 	// syntax.MyPointer()
 	// syntax.MyMap()
-	syntax.MySlice()
+	// syntax.MySlice()
+	syntax.MyStruct()
+	syntax.MyMethod()
 
 	// external.MyViper()
 }
