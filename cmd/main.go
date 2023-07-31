@@ -16,6 +16,7 @@ func main() {
 	// syntax.MySlice()
 	syntax.MyStruct()
 	syntax.MyMethod()
+	syntax.MyInterface()
 
 	// external.MyViper()
 }
