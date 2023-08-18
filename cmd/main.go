@@ -14,9 +14,11 @@ func main() {
 	// syntax.MyPointer()
 	// syntax.MyMap()
 	// syntax.MySlice()
-	syntax.MyStruct()
-	syntax.MyMethod()
-	syntax.MyInterface()
+	// syntax.MyStruct()
+	// syntax.MyMethod()
+	// syntax.MyInterface()
+	// syntax.MyReflect()
+	syntax.MyConcurrent()
 
 	// external.MyViper()
 }
