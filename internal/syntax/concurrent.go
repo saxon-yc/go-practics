@@ -17,27 +17,27 @@ import (
 var wg sync.WaitGroup
 
 func MyConcurrent() {
-	// myGoroutine()
-	// myCurrenencySync()
+	myGoroutine()
+	myCurrenencySync()
 	// myDeadLock()
 
 	// myDefer()
 	// fmt.Printf("triple(5): %v\n", triple(5))
-	// valMoment()
+	valMoment()
 	// valGoMoment()
 
-	pr1()
+	// pr1()
 	// pr2()
 	changeVal()
 }
 
 /*
-	*** goroutine ***
+*** goroutine ***
 
-	当一个程序的主协程退出后，此程序也就退出了，即使还有一些其它协程在运行。
+当一个程序的主协程退出后，此程序也就退出了，即使还有一些其它协程在运行。
 
-	log标准库中的打印函数是经过了同步处理的（下一节将解释什么是并发同步），而fmt标准库中的打印函数却没有被同步。
-	如果我们在上例中使用fmt标准库中的Println函数，则不同协程的打印可能会交织在一起。（虽然对此例来说，交织的概率很低。）
+log标准库中的打印函数是经过了同步处理的（下一节将解释什么是并发同步），而fmt标准库中的打印函数却没有被同步。
+如果我们在上例中使用fmt标准库中的Println函数，则不同协程的打印可能会交织在一起。（虽然对此例来说，交织的概率很低。）
 */
 func sayGretting1(gretting string, times int) {
 	for i := 0; i < times; i++ {
@@ -47,25 +47,39 @@ func sayGretting1(gretting string, times int) {
 	}
 }
 func myGoroutine() {
+	log.Println("---------- goroutine ----------")
 	rand.Seed(time.Now().UnixNano()) // // Go 1.20之前需要
+	log.Println("主协程 Top")
 	log.SetFlags(0)
 	go sayGretting1("Hi~", 10)
+	log.Println("主协程 Middle")
 	go sayGretting1("Hello!", 10)
+	log.Println("主协程 Bottom")
 	time.Sleep(2 * time.Second)
-	log.Println("主协程")
+
 	// return
+	/*
+		2024/06/30 14:20:27 主协程 Top
+		主协程 Middle
+		主协程 Bottom
+		Hello!
+		Hi~
+		Hi~
+		Hi~
+		Hello!
+	*/
 }
 
 // 以上的程序存在缺陷，当主协程退出时，那20条打印语句还未完成，需要通过以下的并发同步进行修改
 
 /*
 	*** 并发同步 ***
-
 	不同的并发计算可能共享一些资源，其中共享内存资源最为常见。 在一个并发程序中，常常会发生下面的情形：
 		在一个计算向一段内存写数据的时候，另一个计算从此内存段读数据，结果导致读出的数据的完整性得不到保证。
 		在一个计算向一段内存写数据的时候，另一个计算也向此段内存写数据，结果导致被写入的数据的完整性得不到保证。
 
-	这些情形被称为数据竞争（data race）。并发编程的一大任务就是要调度不同计算，控制它们对资源的访问时段，以使数据竞争的情况不会发生。 此任务常称为并发同步（或者数据同步）
+	这些情形被称为数据竞争（data race）。并发编程的一大任务就是要调度不同计算，控制它们对资源的访问时段，
+	以使数据竞争的情况不会发生。 此任务常称为并发同步（或者数据同步）
 */
 
 func sayGretting2(gretting string, times int) {
@@ -78,14 +92,44 @@ func sayGretting2(gretting string, times int) {
 	wg.Done() // 通知当前任务已经完成。
 }
 func myCurrenencySync() {
+	log.Println("---------- 并发同步 ----------")
 	rand.Seed(time.Now().UnixMicro())
 	log.SetFlags(0) // SetFlags 设置标准记录器的输出标志。 标志位有日期、时间等。
 	wg.Add(2)       // 注册两个新任务
-	go sayGretting2("Hi~", 10)
-	go sayGretting2("Hello!", 10)
+	go sayGretting2("Hi~", 5)
+	log.Println(" 并发同步 Middle")
+	go sayGretting2("Hello!", 5)
+	log.Println(" 并发同步 Bottom")
 	wg.Wait() // 阻塞在这里，直到所有任务都已完成
 
-	// 此刻就能打印完整的20条语句了
+	// 此刻就能打印完整的10条语句了
+
+	/*
+				并发同步 Middle
+		 		并发同步 Bottom
+				Hi~
+				Hi~
+				Hello!
+				Hello!
+				Hello!
+				Hi~
+				Hi~
+				Hi~
+				Hello!
+				Hi~
+				Hello!
+				Hi~
+				Hello!
+				Hi~
+				Hello!
+				Hello!
+				Hello!
+				Hello!
+				Hello!
+				Hi~
+				Hi~
+				Hi~
+	*/
 }
 
 // 程序只能从运行状态退出，而不能从阻塞状态退出
@@ -164,6 +208,7 @@ func triple(n int) (r int) {
 // 一个匿名函数体内的表达式是在此函数被执行的时候才会被逐渐估值的，不管此函数是被普通调用还是延迟/协程调用。
 // defer 与js中的setTimeout比较相似，但setTimeout不是一个栈的结构
 func valMoment() {
+	log.Println("---------- 延迟调用估值时刻 ----------")
 	func() {
 		for i := 0; i < 3; i++ {
 			defer fmt.Println("a:", i) // a:2 a:1 a:0
@@ -200,19 +245,42 @@ func valMoment() {
 			fmt.Println("b:", i) // // b:2 b:1 b:0
 		}()
 	}
+	/*
+			a: 2
+		a: 1
+		a: 0
+
+		b: 3
+		b: 3
+		b: 3
+		Hi~
+
+		b: 2
+		b: 1
+		b: 0
+
+		b: 2
+		b: 1
+		b: 0
+	*/
 }
 
 // 估值时刻同样适用于 goroutine
 func valGoMoment() {
+	log.Println("------------- goroutine 估值时刻 -------------")
 	var a = 123
 	go func(x int) {
-		time.Sleep(time.Second) // 睡眠1s再执行后续任务
-		fmt.Println(x, a)       // 123 789 => x是形参，a为函数外层的变量
+		time.Sleep(time.Second)       // 睡眠1s再执行后续任务
+		log.Fatalf("x=%v;a=%v", x, a) // x=123;a=789 (函数传参：基本数据类型值的副本)
 	}(a)
 
 	a = 789
 
 	time.Sleep(2 * time.Second)
+	/*
+		x=123;a=789
+		exit status 1
+	*/
 }
 
 /*
@@ -220,6 +288,7 @@ func valGoMoment() {
 panic 传入的值就是 recover返回的值
 */
 func pr1() {
+	log.Println("---------- 恐慌恢复 ----------")
 	defer func() {
 		fmt.Println("正常退出")
 	}()
@@ -241,6 +310,7 @@ func pr1() {
 
 // 下面的例子在一个新协程里面产生了一个恐慌，并且此协程在恐慌状况下退出，所以整个程序崩溃了。
 func pr2() {
+	log.Println("---------- panic 程序崩溃 ----------")
 	fmt.Printf("Hi!")
 	go func() {
 		time.Sleep(time.Second)
@@ -253,6 +323,7 @@ func pr2() {
 }
 
 func changeVal() {
+	log.Println("---------- 修改变量 ----------")
 	var str string = "outer"
 
 	func(v string) {
@@ -261,5 +332,10 @@ func changeVal() {
 	}(str)
 
 	fmt.Printf("outer str: %v\n", str)
+
+	/*
+		inner str: inner
+		outer str: outer
+	*/
 
 }
