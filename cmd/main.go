@@ -1,7 +1,7 @@
 package main
 
 import (
-	syntax "go-practics/internal/syntax"
+	dbsvc "go-practics/internal/db"
 )
 
 func init() {
@@ -19,7 +19,12 @@ func main() {
 	// syntax.MyInterface()
 	// syntax.MyReflect()
 	// syntax.MyConcurrent()
-	syntax.MyChannel()
+	// syntax.MyChannel()
 
 	// external.MyViper()
+
+	// kafka.RunProducer()
+	// kafka.RunConsumer()
+	dbsvc.NewDbServer()
+
 }
