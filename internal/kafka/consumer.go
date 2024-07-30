@@ -2,21 +2,23 @@ package kafka
 
 import (
 	"fmt"
-	"go-practics/config"
 	"time"
 
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
+
+	"go-practics/config"
 )
 
+// RunConsumer 运行Kafaka消费者
 func RunConsumer() {
-	kUrl := fmt.Sprintf("%s:%d", config.Host, config.KafkaPort)
+	kURL := fmt.Sprintf("%s:%d", config.Host, config.KafkaPort)
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
 		/*
 			bootstrap.servers
 				这是一个必需的配置项，用于指定 Kafka 集群的地址。它可以是一个或多个 Kafka broker 的地址，
 				格式为 host1:port1,host2:port2,...。客户端使用这些地址来连接 Kafka 集群。
 		*/
-		"bootstrap.servers": kUrl,
+		"bootstrap.servers": kURL,
 
 		/*
 			group.id

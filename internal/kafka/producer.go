@@ -2,14 +2,16 @@ package kafka
 
 import (
 	"fmt"
-	"go-practics/config"
 
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
+
+	"go-practics/config"
 )
 
+// RunProducer 运行Kafaka生产者
 func RunProducer() {
-	kUrl := fmt.Sprintf("%s:%d", config.Host, config.KafkaPort)
-	p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": kUrl})
+	kURL := fmt.Sprintf("%s:%d", config.Host, config.KafkaPort)
+	p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": kURL})
 	if err != nil {
 		panic(err)
 	}

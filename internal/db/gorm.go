@@ -10,6 +10,7 @@ import (
 	"gorm.io/gorm/schema"
 )
 
+// NewGormContext initializes the MySQL database connections.
 func NewGormContext(port int, host, user, password, dbname string) *gorm.DB {
 	gormConfig := gorm.Config{}
 	gormConfig.NamingStrategy = schema.NamingStrategy{

@@ -3,17 +3,18 @@ package dbsvc
 import (
 	"context"
 	"fmt"
-	"go-practics/config"
-	"go-practics/internal/model"
 	"log"
 
+	// Importing the MySQL driver for its side-effects (e.g., to register the driver)
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
+
+	"go-practics/config"
+	"go-practics/internal/model"
 )
 
 func newMysql() *gorm.DB {
-
 	gdb := NewGormContext(config.MysqlPort, config.Host, config.MysqlUsername, config.MysqlPasswd, config.MysqlDbName)
 
 	if config.AutoMigrate {
@@ -28,9 +29,9 @@ func newMysql() *gorm.DB {
 }
 
 func newRedis() (*redis.Client, context.Context) {
-	redisUrl := fmt.Sprintf("%s:%d", config.Host, config.RedisPort)
+	redisURL := fmt.Sprintf("%s:%d", config.Host, config.RedisPort)
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     redisUrl,
+		Addr:     redisURL,
 		Password: "", // 没有密码，默认值
 		DB:       0,  // 默认DB 0
 	})
@@ -38,14 +39,15 @@ func newRedis() (*redis.Client, context.Context) {
 	ctx := context.Background()
 	s, err := rdb.Ping(ctx).Result()
 	if err != nil {
-		log.Fatalf("Init redis filed: %v. \n", err)
+		log.Fatalf("Init redis failed: %v. \n", err)
 	}
 	log.Printf("Init redis success: %v. \n", s)
 
 	return rdb, ctx
 }
+
+// NewDbServer initializes the MySQL and Redis database connections.
 func NewDbServer() {
 	newMysql()
 	newRedis()
-
 }
