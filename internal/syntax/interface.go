@@ -1,4 +1,4 @@
-// 接口 interface
+// 接口 interface 水平组合 同一层级
 package syntax
 
 import (

@@ -3,10 +3,13 @@ package syntax
 
 import (
 	"fmt"
+	"sync"
+	"time"
 )
 
 func MyMap() {
-	mpf1()
+	// mpf1()
+	testMapIsUnsafe()
 }
 
 func mpf1() {
@@ -27,4 +30,80 @@ func mpf1() {
 	// delete(mp1, "age")
 	fmt.Println(mp1)
 
+}
+
+// chapter3/sources/map_concurrent_read_and_write.go
+// func doIteration(m map[int]int) {
+// 	for k, v := range m {
+// 		_ = fmt.Sprintf("[%d, %d] ", k, v)
+// 	}
+// }
+// func doWrite(m map[int]int) {
+// 	for k, v := range m {
+// 		m[k] = v + 1
+// 	}
+// }
+
+// func testMapIsUnsafe() {
+// 	m := map[int]int{
+// 		1: 11,
+// 		2: 12,
+// 		3: 13,
+// 	}
+
+// 	go func() {
+// 		for i := 0; i < 1000; i++ {
+// 			doIteration(m)
+// 		}
+// 	}()
+
+// 	go func() {
+// 		for i := 0; i < 1000; i++ {
+// 			doWrite(m)
+// 		}
+// 	}()
+
+// 	time.Sleep(5 * time.Second)
+
+// }
+
+// /*
+// fatal error: concurrent map iteration and map write
+
+// goroutine 18 [running]:
+// */
+func doIteration(m *sync.Map) {
+	m.Range(func(key, value interface{}) bool {
+		_ = fmt.Sprintf("[%v, %v] ", key, value)
+		return true
+	})
+}
+
+func doWrite(m *sync.Map) {
+	m.Range(func(key, value interface{}) bool {
+		m.Store(key, value.(int)+1)
+		return true
+	})
+}
+
+func testMapIsUnsafe() {
+	m := &sync.Map{}
+	m.Store(1, 11)
+	m.Store(2, 12)
+	m.Store(3, 13)
+
+	go func() {
+		for i := 0; i < 1000; i++ {
+			doIteration(m)
+		}
+	}()
+
+	go func() {
+		for i := 0; i < 1000; i++ {
+			doWrite(m)
+		}
+	}()
+
+	fmt.Printf("safe map=%v\n", m)
+	time.Sleep(5 * time.Second)
 }
