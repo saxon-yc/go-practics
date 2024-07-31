@@ -20,7 +20,7 @@ func main() {
 	// syntax.MyInterface()
 	// syntax.MyReflect()
 	// syntax.MyConcurrent()
-	// syntax.MyChannel()
+	syntax.Myselect()
 
 	// external.MyViper()
 
