@@ -14,11 +14,11 @@ import (
 	"go-practics/internal/model"
 )
 
-func newMysql() *gorm.DB {
-	gdb := NewGormContext(config.MysqlPort, config.Host, config.MysqlUsername, config.MysqlPasswd, config.MysqlDbName)
+func newPsql() *gorm.DB {
+	gdb := NewGormContext(config.PsqlPort, config.Host, config.PsqlUsername, config.PsqlPasswd, config.PsqlDbName)
 
 	if config.AutoMigrate {
-		err := gdb.AutoMigrate(&model.UserDB{})
+		err := gdb.AutoMigrate(&model.ClusterDB{}, &model.QKEPluginDB{}, &model.ClusterPluginDB{})
 		if err != nil {
 			log.Fatalf("migrate table error[%s] exited \n", err)
 		}
@@ -27,6 +27,20 @@ func newMysql() *gorm.DB {
 
 	return gdb
 }
+
+// func newMysql() *gorm.DB {
+// 	gdb := NewGormContext(config.MysqlPort, config.Host, config.MysqlUsername, config.MysqlPasswd, config.MysqlDbName)
+
+// 	if config.AutoMigrate {
+// 		err := gdb.AutoMigrate(&model.UserDB{}, &model.ClusterDB{}, &model.QKEPluginDB{}, &model.ClusterPluginDB{})
+// 		if err != nil {
+// 			log.Fatalf("migrate table error[%s] exited \n", err)
+// 		}
+// 		log.Print("Init database success \n")
+// 	}
+
+// 	return gdb
+// }
 
 func newRedis() (*redis.Client, context.Context) {
 	redisURL := fmt.Sprintf("%s:%d", config.Host, config.RedisPort)
@@ -48,6 +62,7 @@ func newRedis() (*redis.Client, context.Context) {
 
 // NewDbServer initializes the MySQL and Redis database connections.
 func NewDbServer() {
-	newMysql()
+	// newMysql()
+	newPsql()
 	newRedis()
 }

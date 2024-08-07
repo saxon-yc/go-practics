@@ -9,6 +9,11 @@ const (
 	AutoMigrate   = true
 	MysqlDbName   = "m_db"
 
+	PsqlUsername = "root"
+	PsqlPasswd   = "QweRt123$"
+	PsqlPort     = 5432
+	PsqlDbName   = "m_db"
+
 	RedisPort = 6379
 
 	KafkaTopic = "my-topic"

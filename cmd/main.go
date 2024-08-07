@@ -1,6 +1,9 @@
 package main
 
-import "go-practics/internal/syntax"
+import (
+	dbsvc "go-practics/internal/db"
+	"go-practics/internal/router"
+)
 
 func init() {
 	// external.NewViper("config/proxy.yaml")
@@ -10,8 +13,9 @@ func main() {
 	// syntax.MyBase()
 	// syntax.MyArray()
 	// syntax.MyPointer()
+	// syntax.MySlice()
 	// syntax.MyMap()
-	syntax.MySlice()
+	// syntax.MyString()
 	// syntax.MyStruct()
 	// syntax.MyMethod()
 	// syntax.MyInterface()
@@ -25,9 +29,9 @@ func main() {
 
 	// kafka.RunProducer()
 	// kafka.RunConsumer()
-	// dbsvc.NewDbServer()
+	dbsvc.NewDbServer()
 
-	// r := router.NewRouter()
-	// r.Run(":9990")
+	r := router.NewRouter()
+	r.Run(":9990")
 
 }

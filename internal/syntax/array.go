@@ -24,6 +24,26 @@ func MyArray() {
 	sorted(slice1, "asc")
 
 	fmt.Printf("isIncludes(slice1, 255): %v\n", isIncludes(slice1, 255)) // isIncludes(slice1, 255): true
+
+	a := [...]int{1, 2, 3, 4}
+	b := [...]int{1, 2, 3, 4}
+	fmt.Printf("&a=%v, &b=%v\n", &a, &b)       // &a=&[1 2 3 4], &b=&[1 2 3 4]
+	fmt.Printf("(a == b): %v\n", (a == b))     // (a == b): true
+	fmt.Printf("(&a == &b): %v\n", (&a == &b)) // (&a == &b): false
+
+	// 切片不能和非nil进行比较，也就是说两个切片不能进行比较
+	// sl1 := []int{1, 2, 3, 4}
+	// sl2 := []int{1, 2, 3, 4}
+	// fmt.Printf("&sl1=%v, &sl2=%v\n", &sl1, &sl2)       // &sl1=&[1 2 3 4], &sl2=&[1 2 3 4]
+	// fmt.Printf("(&sl1 == &sl2): %v\n", (&sl1 == &sl2)) // (&sl1 == &sl2): false
+
+	// type P struct {
+	// 	Name string
+	// 	Sli  []map[string]string
+	// }
+	// p1 := P{Name: "tom", Sli: []map[string]string{{"key1": "value1"}, {"key2": "value2"}}}
+	// p2 := P{Name: "tom", Sli: []map[string]string{{"key1": "value1"}, {"key2": "value2"}}}
+	// p1 == p2
 }
 
 // 内存空间分配与指针指向

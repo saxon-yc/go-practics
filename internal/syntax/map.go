@@ -9,7 +9,8 @@ import (
 
 func MyMap() {
 	// mpf1()
-	testMapIsUnsafe()
+	// testMapIsUnsafe()
+
 }
 
 func mpf1() {
@@ -106,4 +107,5 @@ func testMapIsUnsafe() {
 
 	fmt.Printf("safe map=%v\n", m)
 	time.Sleep(5 * time.Second)
+
 }
