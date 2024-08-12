@@ -2,13 +2,6 @@ package syntax
 
 import "fmt"
 
-func MySlice() {
-	// testFuncParams()
-	// testCap()
-	// testCapIncrement()
-	testNilAble()
-}
-
 // 测试数组和切片的数据类型：
 // 因为 go 的设计是：数组为基本数据类型，切片为引用数据类型；且函数传参是按值传递（地址副本）
 // 由此函数打印结果可得出：函数传递数组值副本时，会分配新的内存空间；而切片只会拷贝引用地址副本，即指向同一内存空间（这和JS的设计有所不同）
@@ -83,26 +76,45 @@ func testCapIncrement() {
 	*/
 }
 
-func testNilAble() {
-	// var sli []int
-	// sli[0] = 0
-	// fmt.Printf("sli: %v\n", sli)
-	/*
-		没有分配内存，length=0，所以无法访问索引为0的地址，而导致panic（相当于数组越界）
-		panic: runtime error: index out of range [0] with length 0
-		goroutine 1 [running]:
-	*/
+func testArr() {
+	// 说明数组在声明时，已经未其元素分配了内存空间
+	var arr [3]int
+	// arr[0] = 1 // 可以在正常操作
 
-	// append分配内存
-	// sli = append(sli, 0)
-	// fmt.Printf("sli: %v\n", sli) // sli: [0]
+	fmt.Printf("arr zero value arr == [3]int{0, 0, 0}: %v\n", arr == [3]int{0, 0, 0}) //  arr zero value arr == [3]int{0, 0, 0}: true
+	fmt.Printf("cap(arr): %v\n", cap(arr))                                            // cap(arr): 3
+	fmt.Printf("len(arr): %v\n", len(arr))                                            // len(arr): 3
+}
+
+var sliOuter []int
+
+func testSlice(sli []int) {
+
+	fmt.Printf("(&sli): %v\n", (&sli))
+	// fmt.Printf("sli[0]: %v\n", sli[0])             // 元素未分配空间，panic: runtime error: index out of range [0] with length 0
+	fmt.Printf("(sli == nil): %v\n", (sli == nil)) // (sli == nil): true
+	fmt.Printf("len(sli): %v\n", len(sli))         // len(sli): 0
+	fmt.Printf("cap(sli): %v\n", cap(sli))         // cap(sli): 0
+
+	// append会分配内存
+	sli = append(sli, 0)
+	fmt.Printf("sli[0]: %v\n", sli[0]) // sli[0]: 0
 
 	// make 内置函数分配并初始化 slice、map 或 chan（仅）类型的对象。与 new 一样，第一个参数是类型，而不是值。与 new 不同，make 的返回类型与其参数的类型相同，而不是指向它的指针
-	sli := make([]int, 1) // 长度和容量设置为 1
-	sli[0] = 0
-	fmt.Printf("sli: %v\n", sli) // sli: [0]
+	// sli2 := make([]int, 1) // 长度和容量设置为 1时，说明元素以分配内存
+	sli2 := make([]int, 0)
+	// fmt.Printf("sli2[0]: %v\n", sli2[0])             // 元素未分配空间，panic: runtime error: index out of range [0] with length 0
+	fmt.Printf("(sli2 == nil): %v\n", (sli2 == nil)) // (sli2 == nil): false
+	fmt.Printf("len(sli2): %v\n", len(sli2))         // len(sli2): 0
+	fmt.Printf("cap(sli2): %v\n", cap(sli2))         // cap(sli2): 0
 
+}
+func testMap() {
+
+	// 未初始化。未向元素分配内存空间
 	var mp map[string]int
+	fmt.Printf("mp == nil %v, len(mp)=%v\n", mp == nil, len(mp)) // mp == nil true, len(mp)=0
+	fmt.Printf("(mp[\"a\"]): %v\n", (mp["a"]))                   // (mp["a"]): 0 零值
 	// 读
 	// fmt.Printf("mp[\"a\"]: %v\n", mp["a"]) // mp["a"]: 0
 	// 写 （nil dereference in map update）
@@ -112,10 +124,27 @@ func testNilAble() {
 		goroutine 1 [running]:
 	*/
 
-	// 已初始化
-	fmt.Printf("mp == nil: %v\n", mp == nil) // mp == nil: true
-	m2 := map[string]int{}
-	// m2 := make(map[string]int)
-	// m2["a"] = 10
-	fmt.Printf("m2 == nil %v\n", m2 == nil) // m2 == nil: false
+	// 已初始化。已向元素分配内存空间
+	// m2 := map[string]int{}
+	m2 := make(map[string]int)
+	m2["a"] = 10
+	fmt.Printf("m2 == nil %v, len(m2)=%v\n", m2 == nil, len(m2)) // m2 == nil false, len(m2)=1
+}
+
+// MySlice xxx
+func MySlice() {
+	// testFuncParams()
+	// testCap()
+	// testCapIncrement()
+	testArr()
+	testSlice(sliOuter)
+	testMap()
+
+	i := 1
+	ref := i
+	ref = 2
+	ptr := &i
+	i = 20
+	fmt.Printf("i=%v, ref=%v, ptr=%v\n", i, ref, *ptr)    // i=20, ref=2, ptr=20
+	fmt.Printf("&i=%v, &ref=%v &ptr=%v\n", &i, &ref, ptr) // &i=0x1400009e020, &ref=0x1400009e028 &ptr=0x1400009e020
 }

@@ -14,14 +14,15 @@ func main() {
 	// syntax.MyMap()
 	// syntax.MyString()
 	// syntax.MyStruct()
-	// syntax.MyMethod()
+	syntax.MyMethod()
 	// syntax.MyInterface()
 	// syntax.MyReflect()
 	// syntax.MyConcurrent()
 	// syntax.Myselect()
 	// syntax.MyConcurrent()
 	// syntax.MyChannel()
-	syntax.MyDefer()
+	// syntax.MyDefer()
+	// syntax.MyDefer()
 
 	// external.MyViper()
 

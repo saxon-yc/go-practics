@@ -3,10 +3,10 @@ package syntax
 import "fmt"
 
 func MyDefer() {
-	// b()
+	b()
 
-	// x, y := foo(1, 2)
-	// fmt.Println("x=", x, "y=", y)
+	x, y := foo(1, 2)
+	fmt.Println("x=", x, "y=", y)
 
 	testDeferOrder()
 }
@@ -73,4 +73,42 @@ func testDeferOrder() {
 	foo2()
 	fmt.Println("\nfoo3 result:")
 	foo3()
+	testDeferParams()
+}
+
+// chapter4/sources/deferred_func_8.go
+
+func fnoo1() {
+	// 重新分配新切片
+	/* sl := []int{1, 2, 3}
+	defer func(a []int) {
+		fmt.Println(a) // [1 2 3]
+	}(sl)
+
+	sl = []int{3, 2, 1} //
+	_ = sl */
+
+	// 修改底层数组元素
+	sl := []int{1, 2, 3}
+	defer func(a []int) {
+		fmt.Println(a) // [30 2 3]
+	}(sl)
+	sl[0] = 30
+	_ = sl
+}
+
+func fnoo2() {
+	sl := []int{1, 2, 3}
+	defer func(p *[]int) {
+		fmt.Println(*p)
+		fmt.Printf("&p==&sl:%v\n", p == &sl) // true
+	}(&sl)
+
+	sl = []int{3, 2, 1}
+	_ = sl
+}
+
+func testDeferParams() {
+	fnoo1()
+	fnoo2()
 }
