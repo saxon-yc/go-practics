@@ -33,8 +33,7 @@ func sub() {
 		atomic.AddInt32(&total, -1)
 	}
 }
-
-func MyLock() {
+func lock1() {
 	fmt.Println("Enter main groutine...")
 	lwg.Add(2)
 	go add()
@@ -55,4 +54,15 @@ func MyLock() {
 	// 		fmt.Printf("%v vs %v\n", v1, v2)
 	// 	}
 	// }
+}
+
+// 锁的本质：将并行的代码串行化，使用lock肯定会影响性能
+// 即使是设计锁，也应当尽量保证并行
+// 有两组协程，一组负责写，一组负责读，web系统中绝大多数场景都是读多写少
+func lock2() {
+
+}
+
+func MyLock() {
+	lock1()
 }
