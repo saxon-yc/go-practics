@@ -1,0 +1,36 @@
+components:
+  - name: kubesphere
+    type: ks-console
+    version: v3.4.1
+    pre_versions: v3.4.0
+    k8s_versions: "v1.30,v1.29,v1.28,v1.27"
+    description: default description
+    enable_installed: true
+  - name: ccm
+    type: sys-component
+    version: v3.4.1
+    pre_versions: v3.4.0
+    k8s_versions: "v1.30,v1.29,v1.28,v1.27"
+    description: default description
+    enable_installed: true
+  - name: coredns
+    type: dns
+    version: v3.4.1
+    pre_versions: v3.4.0
+    k8s_versions: "v1.30,v1.29,v1.28,v1.27"
+    description: default description
+    enable_installed: true
+  - name: coredns
+    type: dns
+    version: v3.3.0
+    pre_versions: v3.2.0
+    k8s_versions: "v1.30,v1.29,v1.28,v1.27"
+    description: default description
+    enable_installed: true
+  - name: hostnic
+    type: cni
+    version: v1.3.1
+    pre_versions: v1.3.0
+    k8s_versions: "v1.30,v1.29,v1.28,v1.27"
+    description: default description
+    enable_installed: true

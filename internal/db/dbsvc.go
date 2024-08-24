@@ -14,11 +14,39 @@ import (
 	"go-practics/internal/model"
 )
 
+var _ IDataBase = (*DbService)(nil)
+
+type RedisBase struct {
+	Rdb  *redis.Client
+	Rctx context.Context
+}
+type DbService struct {
+	Gdb *gorm.DB
+	RedisBase
+}
+type IDataBase interface {
+	IComponent
+}
+
+// NewDbServer initializes the MySQL and Redis database connections.
+
+func NewDbServer() *DbService {
+	// newMysql()
+	gdb := newPsql()
+	rdb, rctx := newRedis()
+	return &DbService{
+		Gdb: gdb,
+		RedisBase: RedisBase{
+			Rdb:  rdb,
+			Rctx: rctx,
+		},
+	}
+}
 func newPsql() *gorm.DB {
 	gdb := NewGormContext(config.PsqlPort, config.Host, config.PsqlUsername, config.PsqlPasswd, config.PsqlDbName)
 
 	if config.AutoMigrate {
-		err := gdb.AutoMigrate(&model.ClusterDB{}, &model.QKEPluginDB{}, &model.ClusterPluginDB{})
+		err := gdb.AutoMigrate(&model.ClusterDB{}, &model.QKEPluginDB{}, &model.ClusterPluginDB{}, &model.QkeDbComponent{})
 		if err != nil {
 			log.Fatalf("migrate table error[%s] exited \n", err)
 		}
@@ -27,20 +55,6 @@ func newPsql() *gorm.DB {
 
 	return gdb
 }
-
-// func newMysql() *gorm.DB {
-// 	gdb := NewGormContext(config.MysqlPort, config.Host, config.MysqlUsername, config.MysqlPasswd, config.MysqlDbName)
-
-// 	if config.AutoMigrate {
-// 		err := gdb.AutoMigrate(&model.UserDB{}, &model.ClusterDB{}, &model.QKEPluginDB{}, &model.ClusterPluginDB{})
-// 		if err != nil {
-// 			log.Fatalf("migrate table error[%s] exited \n", err)
-// 		}
-// 		log.Print("Init database success \n")
-// 	}
-
-// 	return gdb
-// }
 
 func newRedis() (*redis.Client, context.Context) {
 	redisURL := fmt.Sprintf("%s:%d", config.Host, config.RedisPort)
@@ -60,9 +74,16 @@ func newRedis() (*redis.Client, context.Context) {
 	return rdb, ctx
 }
 
-// NewDbServer initializes the MySQL and Redis database connections.
-func NewDbServer() {
-	// newMysql()
-	newPsql()
-	newRedis()
-}
+// func newMysql() *gorm.DB {
+// 	gdb := NewGormContext(config.MysqlPort, config.Host, config.MysqlUsername, config.MysqlPasswd, config.MysqlDbName)
+
+// 	if config.AutoMigrate {
+// 		err := gdb.AutoMigrate(&model.UserDB{}, &model.ClusterDB{}, &model.QKEPluginDB{}, &model.ClusterPluginDB{})
+// 		if err != nil {
+// 			log.Fatalf("migrate table error[%s] exited \n", err)
+// 		}
+// 		log.Print("Init database success \n")
+// 	}
+
+// 	return gdb
+// }

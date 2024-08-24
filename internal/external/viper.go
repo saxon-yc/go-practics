@@ -8,9 +8,9 @@ import (
 )
 
 /* viper包，主要用于读/写文件 */
-func NewViper(path string) {
+func NewViper(proxy string) {
 	// 读取配置
-	viper.SetConfigFile(path)
+	viper.SetConfigFile(proxy)
 	viper.AddConfigPath(".")
 	if error := viper.ReadInConfig(); error != nil {
 		fmt.Printf("read config file %s failed: %v\n", viper.ConfigFileUsed(), error)

@@ -14,7 +14,7 @@ func New(path string) {
 	viper.SetConfigFile(path)
 	viper.AddConfigPath(".")
 	if error := viper.ReadInConfig(); error != nil {
-		fmt.Printf("read config file %s failed: %v", viper.ConfigFileUsed(), error)
+		fmt.Printf("read config file %s; failed: %v", viper.ConfigFileUsed(), error)
 		os.Exit(1)
 	}
 	fmt.Printf("Using config file: %s", viper.ConfigFileUsed())
