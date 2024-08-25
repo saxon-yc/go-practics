@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 	"sync/atomic"
+	"time"
 )
 
 // WaitGroup 等待 goroutine 集合完成。主 goroutine 调用 Add 设置等待的 goroutine 数量。
@@ -59,10 +60,50 @@ func lock1() {
 // 锁的本质：将并行的代码串行化，使用lock肯定会影响性能
 // 即使是设计锁，也应当尽量保证并行
 // 有两组协程，一组负责写，一组负责读，web系统中绝大多数场景都是读多写少
-func lock2() {
+// 虽然有多个goroutine，但分析得出：读协程应该是并发，读和写应该串行的（互斥的），读和读也应该是串行
+
+func rwLockFn() {
+	var rwlock sync.RWMutex
+	var num int
+	var wgg sync.WaitGroup
+
+	wgg.Add(6)
+	// 写锁
+	go func() {
+		time.Sleep(time.Second * 3)
+
+		defer wgg.Done()
+		rwlock.Lock() // 加写锁，写锁会阻止别人，的读锁获取和写锁获取
+		num = 100
+		rwlock.Unlock()
+		fmt.Println("write num:", num)
+		time.Sleep(time.Second * 5)
+	}()
+
+	// 读锁
+	for i := 0; i < 5; i++ {
+		go func() {
+			defer wgg.Done()
+			for {
+				rwlock.RLock() // 加读锁，读锁不会阻止别人的读
+				time.Sleep(time.Millisecond * 500)
+				fmt.Println("get read, num:", num)
+				rwlock.RUnlock()
+			}
+		}()
+	}
+	wgg.Wait()
+
+	/*
+		get read, num: 0
+		get read, num: 0
+		write num: 100
+		get read, num: 100
+	*/
 
 }
 
 func MyLock() {
-	lock1()
+	// lock1()
+	rwLockFn()
 }

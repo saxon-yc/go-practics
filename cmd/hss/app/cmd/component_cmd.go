@@ -41,13 +41,11 @@ func importComponents() error {
 		return err
 	} else {
 		if err := viper.Unmarshal(&config); err != nil {
-			log.Fatalf("Error unmarshalling config: %s", err)
 			return err
 		}
 
-		// fmt.Printf("Components: %v\n", config.Components)
+		fmt.Printf("Components: %v\n", config.Components)
 		if err := dbsvc.NewDbServer().AddComponents(config.Components); err != nil {
-			log.Fatalf("Error adding components: %s", err)
 			return err
 		}
 		return nil
@@ -57,14 +55,18 @@ func importComponents() error {
 
 func ComponentCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "import",
+		Use:   "import components",
 		Short: "import: Import components configuration",
 		Long: dedent.Dedent(`
 		`),
 		SilenceErrors: true,
 		SilenceUsage:  true,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Printf("importComponents(): %v\n", importComponents())
+			if err := importComponents(); err != nil {
+				log.Fatalf("Error adding components: %s", err)
+			} else {
+				log.Fatalln("Added components successfully")
+			}
 		},
 	}
 	return cmd

@@ -3,7 +3,7 @@ package main
 import (
 	dbsvc "go-practics/internal/db"
 	"go-practics/internal/external"
-	"go-practics/internal/syntax"
+	"go-practics/internal/imooc"
 )
 
 func init() {
@@ -22,12 +22,14 @@ func main() {
 	// syntax.MyInterface()
 	// syntax.MyReflect()
 	// syntax.MyConcurrent()
-	syntax.MyLock()
+	// syntax.MyLock()
 	// syntax.Myselect()
 	// syntax.MyConcurrent()
 	// syntax.MyChannel()
 	// syntax.MyDefer()
 	// syntax.MyDefer()
+
+	imooc.NewImooc()
 
 	// external.MyViper()
 

@@ -3,16 +3,17 @@ package model
 import "time"
 
 type Components struct {
-	Components []Items `json:"items"`
+	Components []ComptItem `yaml:"components"`
 }
-type Items struct {
-	Name            string `json:"name"`
-	Type            string `json:"type"`
-	Version         string `json:"version"`
-	PreVersions     string `json:"pre_versions"`
-	K8sVersions     string `json:"k8s_versions"`
-	Description     string `json:"description"`
-	EnableInstalled bool   `json:"enable_installed"`
+
+type ComptItem struct {
+	Name            string `yaml:"name"`
+	Type            string `yaml:"type"`
+	Version         string `yaml:"version"`
+	PreVersions     string `yaml:"preVersions"`
+	K8sVersions     string `yaml:"k8sVersions"`
+	Description     string `yaml:"description"`
+	EnableInstalled bool   `yaml:"enableInstalled"`
 }
 
 type QkeDbComponent struct {
