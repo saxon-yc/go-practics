@@ -1,13 +1,13 @@
 package main
 
 import (
+	"go-practics/config"
 	dbsvc "go-practics/internal/db"
-	"go-practics/internal/external"
 	"go-practics/internal/imooc"
 )
 
 func init() {
-	external.NewViper("config/proxy.yaml")
+	config.New("config/proxy.yaml", "config/components.yaml")
 }
 
 func main() {
