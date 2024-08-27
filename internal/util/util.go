@@ -1,6 +1,8 @@
 package util
 
-import "go-practics/internal/model"
+import (
+	"go-practics/internal/model"
+)
 
 // ContainsEqualCompt Returns true if the objects are equal, false otherwise.
 func ContainsEqualCompt(input model.ComptItem, db []model.QkeDbComponent) bool {

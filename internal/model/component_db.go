@@ -30,3 +30,23 @@ type QkeDbComponent struct {
 	UpdatedAt        time.Time `gorm:"column:updated_at;default:now()" json:"updated_at"`
 	Deleted          bool      `gorm:"column:deleted;type:boolean;default:false" json:"deleted"`
 }
+
+type (
+	ClusterComponentFields struct {
+		ComponentName    string   `json:"component_name,omitempty"`
+		ComponentType    string   `json:"component_type,omitempty"`
+		ComponentVersion string   `json:"component_version,omitempty"`
+		Description      string   `json:"description,omitempty"`
+		UpgradeVersions  []string `json:"upgrade_versions,omitempty"` // Upgradable version. If the length is 0, it means the latest version.
+		K8sVersions      []string `json:"k8s_versions,omitempty"`
+		// Get failure reasons and status in real time
+		FailedReason string `json:"failed_reason,omitempty"`
+		Status       string `json:"status,omitempty"`
+	}
+	GetClusterComponentRequest struct {
+		ClusterId string `json:"cluster_id" binding:"required"`
+	}
+	GetClusterComponentResponse struct {
+		Components []ClusterComponentFields `json:"components"`
+	}
+)

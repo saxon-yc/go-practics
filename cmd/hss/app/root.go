@@ -83,7 +83,8 @@ Echo works a lot like print, except it has a child command.`,
 	cmds.ResetFlags()
 
 	cmds.AddCommand(cmdPrint, cmdEcho)
-	cmds.AddCommand(hss_cmd.ComponentCmd())
+	cmds.AddCommand(hss_cmd.ImportComponent())
+	cmds.AddCommand(hss_cmd.QueryComponent())
 
 	return cmds
 }
