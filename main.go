@@ -2,8 +2,7 @@ package main
 
 import (
 	"go-practics/config"
-	dbsvc "go-practics/internal/db"
-	"go-practics/internal/imooc"
+	"go-practics/internal/util"
 )
 
 func init() {
@@ -29,15 +28,18 @@ func main() {
 	// syntax.MyDefer()
 	// syntax.MyDefer()
 
-	imooc.NewImooc()
+	// imooc.NewImooc()
 
 	// external.MyViper()
 
 	// kafka.RunProducer()
 	// kafka.RunConsumer()
-	dbsvc.NewDbServer()
+	// dbsvc.NewDbServer()
 
 	// r := router.NewRouter()
 	// r.Run(":9990")
+
+	// ======== test ========
+	util.StandardizeVersion()
 
 }
