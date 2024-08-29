@@ -40,6 +40,6 @@ func main() {
 	// r.Run(":9990")
 
 	// ======== test ========
-	util.StandardizeVersion()
+	util.StandardizeVersion("v3.2.0-official")
 
 }

@@ -147,4 +147,25 @@ func MySlice() {
 	i = 20
 	fmt.Printf("i=%v, ref=%v, ptr=%v\n", i, ref, *ptr)    // i=20, ref=2, ptr=20
 	fmt.Printf("&i=%v, &ref=%v &ptr=%v\n", &i, &ref, ptr) // &i=0x1400009e020, &ref=0x1400009e028 &ptr=0x1400009e020
+
+	versions := make([]string, 0)                            // []string len: 0, cap: 0, []
+	fmt.Printf("(versions == nil): %v\n", (versions == nil)) // false
+
+	/* var versions []string // []string len: 0, cap: 0, nil
+	fmt.Printf("(versions == nil): %v\n", (versions == nil)) // true */
+	fmt.Printf("len(versions): %v\n", len(versions))
+
+	var a interface{} = []int{3}
+	// 类型判断, a.(type) 必须在switch中，a的类型必须是interface{}
+	switch v := a.(type) {
+	case int:
+		fmt.Println("a is an int:", v)
+	case string:
+		fmt.Println("a is a string:", v)
+	case []int:
+		fmt.Println("a is a []string:", v)
+	default:
+		fmt.Println("a is of a different type")
+	}
+
 }
