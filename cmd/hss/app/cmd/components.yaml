@@ -3,41 +3,48 @@ components:
     type: ks-console # 组件类型
     version: v3.4.1 # 组件当前版本
     preVersions: "v3.4.0,v3.3.0" # 可以升级到当前版本之前的组件版本，用逗号分割
-    k8sVersions: "v1.30,v1.29,v1.28,v1.27" # K8s版本
+    k8sVersions: "v1.21.5,v1.23.8,v1.25.10,v1.27.10" # K8s版本
+    description: default description
+    enableInstalled: true
+  - name: kubesphere # 组件名称
+    type: ks-console # 组件类型
+    version: v4.1.0 # 组件当前版本
+    preVersions: "v3.5.1,v3.5.0" # 可以升级到当前版本之前的组件版本，用逗号分割
+    k8sVersions: "v1.21.5,v1.23.8,v1.25.10,v1.27.10" # K8s版本
     description: default description
     enableInstalled: true
   - name: ccm
     type: sys-component
     version: v3.4.1
     preVersions: "v3.4.0,v3.3.0"
-    k8sVersions: "v1.30,v1.29,v1.28,v1.27"
+    k8sVersions: "v1.21.5,v1.23.8,v1.25.10,v1.27.10"
     description: default description
     enableInstalled: true
   - name: coredns
     type: dns
     version: v3.4.1
     preVersions: "v3.4.0,v3.3.0"
-    k8sVersions: "v1.30,v1.29,v1.28,v1.27"
+    k8sVersions: "v1.21.5,v1.23.8,v1.25.10,v1.27.10"
     description: default description
     enableInstalled: true
   - name: coredns
     type: dns
     version: v3.3.0
     preVersions: "v3.2.0,v3.1.0"
-    k8sVersions: "v1.30,v1.29,v1.28,v1.27"
+    k8sVersions: "v1.21.5,v1.23.8,v1.25.10,v1.27.10"
     description: default description
     enableInstalled: true
   - name: hostnic
     type: cni
     version: v1.3.1
     preVersions: "v1.30,v1.29"
-    k8sVersions: "v1.30,v1.29,v1.28,v1.27"
+    k8sVersions: "v1.21.5,v1.23.8,v1.25.10,v1.27.10"
     description: default description
     enableInstalled: true
   - name: calico
     type: cni
     version: v1.27.1
     preVersions: "v1.26.9,v1.26.8"
-    k8sVersions: "v1.30,v1.29,v1.28,v1.27"
+    k8sVersions: "v1.21.5,v1.23.8,v1.25.10,v1.27.10"
     description: default description
     enableInstalled: true

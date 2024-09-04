@@ -1,18 +1,22 @@
 package cmd
 
 import (
+	"bytes"
+	"embed"
 	"fmt"
 	"log"
 
 	"github.com/lithammer/dedent"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 
-	"go-practics/config"
+	dbsvc "go-practics/internal/db"
+	"go-practics/internal/model"
 )
 
-/* //go:embed components.yaml */
-// var configFile embed.FS
-/*
+//go:embed components.yaml
+var configFile embed.FS
+
 func readFile() error {
 	// 读取嵌入的 YAML 文件
 	byt, err := configFile.ReadFile("components.yaml")
@@ -29,16 +33,16 @@ func readFile() error {
 	}
 
 	return nil
-} */
+}
 
 func importComponents() error {
-	var result config.ConfigModel
-	fmt.Printf("result:%+v\n", result.Components)
+	// var result config.ConfigModel
+	// fmt.Printf("result:%+v\n", result.Components)
 	// if err := dbsvc.NewDbServer().AddComponents(&configFile.Components); err != nil {
 	// 	return err
 	// }
-	return nil
-	/* var config model.Components
+	// return nil
+	var config model.Components
 	if err := readFile(); err != nil {
 		return err
 	} else {
@@ -51,7 +55,7 @@ func importComponents() error {
 			return err
 		}
 		return nil
-	} */
+	}
 }
 
 func ImportComponent() *cobra.Command {

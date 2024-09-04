@@ -70,7 +70,7 @@ func (db *DbService) FindQkeComponents(comptName, comptType string) (output []mo
 	if err = db.Gdb.Where("deleted=false AND component_name LIKE ? AND component_type LIKE ?", "%"+comptName, "%"+comptType).Find(&qkeComponents).Error; err != nil {
 		return output, err
 	}
-
+	KubernetesVersion := "v1.30.0,v1.29.0,v1.28.0,v1.27.0"
 	for _, v1 := range qkeComponents {
 		upgradeVersions := make([]string, 0, len(v1.PreVersions))
 		for _, v2 := range qkeComponents {
@@ -85,7 +85,6 @@ func (db *DbService) FindQkeComponents(comptName, comptType string) (output []mo
 				} else {
 					return true
 				}
-
 			})
 		}
 		K8sVersions := strings.Split(v1.K8sVersions, ",")
@@ -98,14 +97,24 @@ func (db *DbService) FindQkeComponents(comptName, comptType string) (output []mo
 				}
 			})
 		}
-		output = append(output, model.ClusterComponentFields{
-			ComponentName:    v1.ComponentName,
-			ComponentType:    v1.ComponentType,
-			ComponentVersion: v1.ComponentVersion,
-			Description:      v1.Description,
-			UpgradeVersions:  upgradeVersions,
-			K8sVersions:      K8sVersions,
-		})
+
+		isExist := false
+		for _, v := range K8sVersions {
+			if strings.Contains(KubernetesVersion, v) {
+				isExist = true
+				break
+			}
+		}
+		if isExist {
+			output = append(output, model.ClusterComponentFields{
+				ComponentName:    v1.ComponentName,
+				ComponentType:    v1.ComponentType,
+				ComponentVersion: v1.ComponentVersion,
+				Description:      v1.Description,
+				UpgradeVersions:  upgradeVersions,
+				K8sVersions:      K8sVersions,
+			})
+		}
 	}
 	sort.SliceStable(output, func(i, j int) bool {
 		if output[i].ComponentName == output[j].ComponentName && output[i].ComponentType == output[j].ComponentType {

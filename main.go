@@ -2,6 +2,7 @@ package main
 
 import (
 	"go-practics/config"
+	dbsvc "go-practics/internal/db"
 	"go-practics/internal/util"
 )
 
@@ -34,7 +35,7 @@ func main() {
 
 	// kafka.RunProducer()
 	// kafka.RunConsumer()
-	// dbsvc.NewDbServer()
+	dbsvc.NewDbServer()
 
 	// r := router.NewRouter()
 	// r.Run(":9990")
