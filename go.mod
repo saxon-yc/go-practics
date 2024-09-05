@@ -12,6 +12,7 @@ require (
 	github.com/redis/go-redis/v9 v9.6.0
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.16.0
+	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/driver/postgres v1.5.9
 	gorm.io/gorm v1.25.11
 )
