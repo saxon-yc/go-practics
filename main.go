@@ -28,7 +28,8 @@ func main() {
 	// syntax.MyChannel()
 	// syntax.MyDefer()
 	// syntax.MyDefer()
-	syntax.UpdateAddonChart()
+	// syntax.UpdateAddonChart()
+	syntax.NewChartCmd()
 
 	// imooc.NewImooc()
 
